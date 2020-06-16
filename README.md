@@ -9,7 +9,7 @@ If you are running your program on cmd or tools which requires additional instal
 * docx: This library add inputs into a word file in an existing one or by creating a new one. Use the command 'pip install python-docx' to install this library using your command prompt.
 * PyDrive: This library is used to make changes in the google drive using rest APIs. Use the command 'pip install PyDrive' to install this library using your command prompt.
 * tkinter: This library enables a GUI with which the user will interact and give inputs. Its the standars library which comes with Python installation. If you are using PyCharm, you might need to install the future module to use tkinter.
-* client_secrets.json file: Put this file in the same folder as your python file if you are using PyCharm or in your current directory where the word file will be saved if you use the terminal. You can enable your own google drive API from https://developers.google.com/drive/api/v3/enable-drive-api or use the file I have provided in this project's repository.
+* client_secrets.json file: Put this file in the same folder as your python file if you are using PyCharm or in your current directory where the word file will be saved if you use the terminal. You can enable your own google drive API from https://developers.google.com/drive/api/v3/enable-drive-api from where you will get this json file which will provide the authorization to use APIs. However, if you do not want to upload the file on the drive then you donot need to do thisn step.
 
 
  
