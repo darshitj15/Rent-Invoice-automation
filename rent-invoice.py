@@ -1,32 +1,37 @@
 import docx
-
+import googleapiclient
 from tkinter import *
+import os
+pwd=os.getcwd()
 
 root=Tk()
-root.title('Trial 1')
-
-
-datelabel=Label(root,text='date')
+root.title('Rent Invoice Automation')
+scrollbar = Scrollbar(root)
+scrollbar.grid()
+# root=Frame(master=root, width=500, height=1000, bg='black')
+# root.geometry("500x500")
+# root.pack()
+datelabel=Label(root,text='Date')
 datelabel.grid(row=2,column=1)
 date = Entry(root,text='Enter the date: ')
 date.grid(row=2,column=2)
 
-monthlabel=Label(root,text='label')
+monthlabel=Label(root,text='Invoice Month-Year')
 monthlabel.grid(row=3,column=1)
 month = Entry(root,text='Enter the month of invoice: ')
 month.grid(row=3,column=2)
 
-addresslabel=Label(root,text='address')
+addresslabel=Label(root,text='Address')
 addresslabel.grid(row=4,column=1)
 address = Entry(root,text='Enter the address of the property: ')
 address.grid(row=4,column=2)
 
-rentlabel=Label(root,text='rent')
+rentlabel=Label(root,text='Rent')
 rentlabel.grid(row=5,column=1)
 rent = Entry(root,text='Enter the rent amount: ')
 rent.grid(row=5,column=2)
 
-petlabel=Label(root,text='pet fees')
+petlabel=Label(root,text='Pet fees')
 petlabel.grid(row=6, column=1)
 pet = Entry(root,text='Enter the pet fees: ')
 pet.grid(row=6,column=2)
@@ -110,6 +115,8 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
             abcdef.append(abcde)
     except:
         pass
+    global monthyear
+    monthyear=month1
     doc = docx.Document()
     doc.add_heading('Date: ' + date1, 5)
     doc.add_heading('Invoice Month:' + month1, 5)
@@ -168,8 +175,11 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
         labelothers=Label(root,text=others1)
         labelothers.grid(row=10,column=2)
         input_save.destroy()
+        global filename
+        filename=input_save1
         labelinput_save=Label(root,text=input_save1)
         labelinput_save.grid(row=11,column=2)
+        global a
         a=12
         labelname_new={}
         labelamount_new={}
@@ -224,27 +234,36 @@ button1=Button(root,text='Submit',command=lambda : func1(date.get(),month.get(),
 button1.grid(row=1,column=1)
 
 quitbutton=Button(root,text='Exit',command=root.quit)
-quitbutton.grid(row=0)
+quitbutton.grid(row=0,column=3)
 
 
 def googledrive_entries():
-
+    global a
     folder_namelabel=Label(root,text='Enter the folder name you want to create/present on drive: ')
-    folder_namelabel.grid(column=1)
+    folder_namelabel.grid(row=a+2,column=1)
     global folder_name
     folder_name=Entry(root)
-    folder_name.grid(column=2)
+    folder_name.grid(row=a+2,column=2)
     file_namelabel=Label(root,text='Enter the file name for the word document you want to give on drive: ')
-    file_namelabel.grid(column=1)
+    file_namelabel.grid(row=a+3,column=1)
     global title
     title=Entry(root)
-    title.grid(column=2)
-    fullpathlabel=Label(root,text='Enter path of the file you want to upload (with filename and extension): ')
-    fullpathlabel.grid(column=1)
+    title.grid(row=a+3,column=2)
+    fullpathlabel=Label(root,text='Change path of the file if moved: ')
+    fullpathlabel.grid(row=a+4,column=1)
     global fullpath
     fullpath=Entry(root)
-    fullpath.grid(column=2)
-    submitbutton.grid(column=1)
+    fullpath.grid(row=a+4,column=2)
+    global filename,pwd
+    fullpath.delete(0, END)
+    pwd2slash=pwd.split('\\')
+    path=''
+    for j in pwd2slash:
+        path=path+j+'\\'
+    finalpath=path+filename+'.docx'
+    fullpath.insert(0,finalpath)
+    submitbutton.grid(row=a+5,column=1)
+    a+=5
     global uploadondrive
     uploadondrive.destroy()
 
@@ -253,25 +272,32 @@ def googledrive_entries():
 def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
     from pydrive.auth import GoogleAuth
     from pydrive.drive import GoogleDrive
-
+    # GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = 'C:\\Users\\darsh\\PycharmProjects\\test111\\client_secrets.json'
     gauth = GoogleAuth()
     gauth.LocalWebserverAuth()  # Creates local webserver and auto handles authentication.
     drive = GoogleDrive(gauth)
 
     def check_folder_exists(folder_name):
         list_of_file = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
-        for drive_folder in list_of_file:
-            if drive_folder['title'] == folder_name:
-                return drive_folder['id']
 
-            else:
-                folder = drive.CreateFile({'title': folder_name, "mimeType": "application/vnd.google-apps.folder"})
-                folder.Upload()
-                return folder['id']
+        list1=[]
+        for drive_folder in list_of_file:
+            # print(drive_folder['title'])
+            list1.append(drive_folder['title'])
+            print(list1)
+        if folder_name in list1:
+            for drive_folder in list_of_file:
+                if drive_folder['title'] == folder_name:
+                    return drive_folder['id']
+
+        else:
+            folder = drive.CreateFile({'title': folder_name, "mimeType": "application/vnd.google-apps.folder"})
+            folder.Upload()
+            return folder['id']
     fid1 = check_folder_exists(folder_name1)
 
-    def upload_file_inside_folder(title, fid, fullpath):
-        file = drive.CreateFile({'title': title, 'parents': [{'kind': 'drive#fileLink', 'id': fid}]})
+    def upload_file_inside_folder(title, fid1, fullpath):
+        file = drive.CreateFile({'title': title, 'parents': [{'kind': 'drive#fileLink', 'id': fid1}]})
         file.SetContentFile(fullpath)
         file.Upload()
         return True
@@ -281,6 +307,7 @@ def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
         upload_file_inside_folder(title1, fid1, fullpath1)
         successdrive=Label(root,text='Successfully Uploaded on drive',fg='green')
         successdrive.grid(row=1,column=1)
+        sendmail.grid(column=1)
         try:
             oserror.destroy()
         except:
@@ -295,8 +322,74 @@ def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
 
 
 submitbutton=Button(root,text='Submit on drive',command=lambda:check_folder_exists_and_create_fileupload(folder_name.get(),title.get(),fullpath.get()))
+def sendmailfunction():
+    sendmail.destroy()
+    global fromadd,password,to
+    global a
+    Warninglabel=Label(root,text='If using gmail, Turn LESS SECURE APP access ON if it is OFF ')
+    Warninglabel.grid(row=a+1,column=1)
+    fromaddlabel=Label(root, text='Email from')
+    fromadd=Entry(root)
+    fromaddlabel.grid(row=a+2,column=1)
+    fromadd.grid(row=a+2,column=2)
+    passwordlabel=Label(root,text='Password')
+    passwordlabel.grid(row=a+3,column=1)
+    password=Entry(root)
+    password.grid(row=a+3,column=2)
+    tolabel=Label(root,text='Send to')
+    tolabel.grid(row=a+4,column=1)
+    to=Entry(root)
+    to.grid(row=a+4,column=2)
+    submitmail.grid(row=a+5, column=2)
+    a+=5
+def bindmailelements(from1,password1,to1):
+    from email.message import EmailMessage
 
+    fromowner = from1
+    totenant = to1
 
+    mssg = EmailMessage()
+    mssg['From'] = fromowner
+    mssg['To'] = totenant
+    global monthyear
+    mssg['Subject'] = 'Rent Invoice '+(monthyear)+ ' Uploaded on Drive'
+
+    body = ''' Hi, 
+
+    Your monthly rent invoice has been uploaded on the drive. 
+
+    Thanks. '''
+
+    mssg.set_content(body)
+
+    import smtplib
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    global successmail,loginerror
+    global a
+    try:
+        server.login(fromowner, password1)
+        text = mssg.as_string()
+        server.sendmail(fromowner, totenant, text)
+        server.quit()
+        try:
+            loginerror.destroy()
+        except Exception:
+            pass
+        successmail=Label(root,text='Mail sent',bg='green')
+        successmail.grid(row=a+1,column=1)
+    except Exception:
+        try:
+            successmail.destroy()
+        except Exception:
+            pass
+        loginerror=Label(root,text='Login Error in sending email',bg='red')
+        loginerror.grid(row=a+1,column=1)
+
+sendmail=Button(root,text='Send Notification Email',command=sendmailfunction)
+submitmail=Button(root,text='Submit Email and Password',command=lambda:bindmailelements(fromadd.get(),password.get(),to.get()))
 root.mainloop()
 
 
