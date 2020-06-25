@@ -6,59 +6,55 @@ pwd=os.getcwd()
 
 root=Tk()
 root.title('Rent Invoice Automation')
-scrollbar = Scrollbar(root)
-scrollbar.grid()
-# root=Frame(master=root, width=500, height=1000, bg='black')
-# root.geometry("500x500")
-# root.pack()
+
 datelabel=Label(root,text='Date')
 datelabel.grid(row=2,column=1)
-date = Entry(root,text='Enter the date: ')
+date = Entry(root)
 date.grid(row=2,column=2)
 
 monthlabel=Label(root,text='Invoice Month-Year')
 monthlabel.grid(row=3,column=1)
-month = Entry(root,text='Enter the month of invoice: ')
+month = Entry(root)
 month.grid(row=3,column=2)
 
 addresslabel=Label(root,text='Address')
 addresslabel.grid(row=4,column=1)
-address = Entry(root,text='Enter the address of the property: ')
+address = Entry(root)
 address.grid(row=4,column=2)
 
 rentlabel=Label(root,text='Rent')
 rentlabel.grid(row=5,column=1)
-rent = Entry(root,text='Enter the rent amount: ')
+rent = Entry(root)
 rent.grid(row=5,column=2)
 
 petlabel=Label(root,text='Pet fees')
 petlabel.grid(row=6, column=1)
-pet = Entry(root,text='Enter the pet fees: ')
+pet = Entry(root)
 pet.grid(row=6,column=2)
 
 watertrashlabel=Label(root,text='Water and Trash Fees')
 watertrashlabel.grid(row=7,column=1)
-watertrash = Entry(root,text='Enter the water & trash fees: ')
+watertrash = Entry(root)
 watertrash.grid(row=7,column=2)
 
 seweragelabel=Label(root,text='Sewerage fees')
 seweragelabel.grid(row=8,column=1)
-sewerage = Entry(root,text='Enter the sewerage fees: ')
+sewerage = Entry(root)
 sewerage.grid(row=8,column=2)
 
 electricitylabel=Label(root,text='Electricity Charges')
 electricitylabel.grid(row=9,column=1)
-electricity = Entry(root,text='Enter the electricity amount: ')
+electricity = Entry(root)
 electricity.grid(row=9,column=2)
 
 otherslabel=Label(root,text='Other Fees')
 otherslabel.grid(row=10,column=1)
-others = Entry(root,text='Enter any other amount (if to add in total bill):')
+others = Entry(root)
 others.grid(row=10,column=2)
 
 input_savelabel=Label(root,text='New file name without extension (Existing file might be overwritten)')
 input_savelabel.grid(row=11,column=1)
-input_save=Entry(root,text='Enter the file (do not add extension): ')
+input_save=Entry(root)
 input_save.grid(row=11,column=2)
 
 
@@ -282,9 +278,7 @@ def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
 
         list1=[]
         for drive_folder in list_of_file:
-            # print(drive_folder['title'])
             list1.append(drive_folder['title'])
-            print(list1)
         if folder_name in list1:
             for drive_folder in list_of_file:
                 if drive_folder['title'] == folder_name:
