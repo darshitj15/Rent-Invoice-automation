@@ -1,60 +1,89 @@
 import docx
-import googleapiclient
 from tkinter import *
 import os
 pwd=os.getcwd()
 
 root=Tk()
 root.title('Rent Invoice Automation')
+# root.attributes('-fullscreen', True)
+root.state('zoomed')
+try:
+    root.wm_iconbitmap('homelogo.ico')
+except:
+    pass
+# root.geometry('700x400')
+# root.configure(bg='blue')
+image_num=0
+background_image = PhotoImage(file='landscape.png')
+background_label = Label(root,image=background_image)
+background_label.place(x=0,y=0)
+quitbutton=Button(root,text='X',bg='red',fg='white',activebackground='#00ff00',command=root.quit,bd=4,width=2,height=1)
+quitbutton.pack(side=TOP,anchor=NE)
+minimize_button=Button(root, text = "-",activebackground='#00ff00', command = lambda: root.wm_state("iconic"),width=2,height=1,bd=4).pack(side=TOP,anchor=NE)
 
-datelabel=Label(root,text='Date')
+
+
+def background():
+
+
+    global background_label
+    background_label.destroy()
+    backgroundbutton.destroy()
+
+    # except:
+    #     pass
+backgroundbutton = Button(root,text='Remove Background',activebackground='#00ff00',command=background)
+backgroundbutton.pack(side=BOTTOM)
+
+frame = Frame(root,bd=5,width=500,height=500,relief=SUNKEN,highlightthickness=5,highlightcolor='black',highlightbackground='grey')
+datelabel=Label(frame,text='Date')
 datelabel.grid(row=2,column=1)
-date = Entry(root)
+date = Entry(frame,justify=CENTER,width=40,bd=4)
 date.grid(row=2,column=2)
 
-monthlabel=Label(root,text='Invoice Month-Year')
+monthlabel=Label(frame,text='Invoice Month-Year')
 monthlabel.grid(row=3,column=1)
-month = Entry(root)
+month = Entry(frame,justify=CENTER,width=40,bd=4)
 month.grid(row=3,column=2)
 
-addresslabel=Label(root,text='Address')
+addresslabel=Label(frame,text='Address')
 addresslabel.grid(row=4,column=1)
-address = Entry(root)
+address = Entry(frame,justify=CENTER,width=40,bd=4)
 address.grid(row=4,column=2)
 
-rentlabel=Label(root,text='Rent')
+rentlabel=Label(frame,text='Rent')
 rentlabel.grid(row=5,column=1)
-rent = Entry(root)
+rent = Entry(frame,justify=CENTER,width=40,bd=4)
 rent.grid(row=5,column=2)
 
-petlabel=Label(root,text='Pet fees')
+petlabel=Label(frame,text='Pet fees')
 petlabel.grid(row=6, column=1)
-pet = Entry(root)
+pet = Entry(frame,justify=CENTER,width=40,bd=4)
 pet.grid(row=6,column=2)
 
-watertrashlabel=Label(root,text='Water and Trash Fees')
+watertrashlabel=Label(frame,text='Water and Trash Fees')
 watertrashlabel.grid(row=7,column=1)
-watertrash = Entry(root)
+watertrash = Entry(frame,justify=CENTER,width=40,bd=4)
 watertrash.grid(row=7,column=2)
 
-seweragelabel=Label(root,text='Sewerage fees')
+seweragelabel=Label(frame,text='Sewerage fees')
 seweragelabel.grid(row=8,column=1)
-sewerage = Entry(root)
+sewerage = Entry(frame,justify=CENTER,width=40,bd=4)
 sewerage.grid(row=8,column=2)
 
-electricitylabel=Label(root,text='Electricity Charges')
+electricitylabel=Label(frame,text='Electricity Charges')
 electricitylabel.grid(row=9,column=1)
-electricity = Entry(root)
+electricity = Entry(frame,justify=CENTER,width=40,bd=4)
 electricity.grid(row=9,column=2)
 
-otherslabel=Label(root,text='Other Fees')
+otherslabel=Label(frame,text='Other Fees')
 otherslabel.grid(row=10,column=1)
-others = Entry(root)
+others = Entry(frame,justify=CENTER,width=40,bd=4)
 others.grid(row=10,column=2)
 
-input_savelabel=Label(root,text='New file name without extension (Existing file might be overwritten)')
+input_savelabel=Label(frame,text='New file name without extension (Existing file might be overwritten)')
 input_savelabel.grid(row=11,column=1)
-input_save=Entry(root)
+input_save=Entry(frame,justify=CENTER,width=40,bd=4)
 input_save.grid(row=11,column=2)
 
 
@@ -67,29 +96,41 @@ amount_new = {}
 a=12
 def funct2():
     global i
-    global a
-    i+=1
-    a+=1
-    name_newlabel[i] = Label(root, text='Expense name')
-    name_newlabel[i].grid(row=a,column=1)
-    name_new[i] = Entry(root)
-    name_new[i].grid(row=a,column=2)
-    a+=1
-    amount_newlabel[i] = Label(root, text='Expense amount')
-    amount_newlabel[i].grid(row=a,column=1)
-    amount_new[i] = Entry(root)
-    amount_new[i].grid(row=a,column=2)
+    if i <=5:
+
+        global a
+        i+=1
+        a+=1
+        name_newlabel[i] = Label(frame, text='Expense name')
+        name_newlabel[i].grid(row=a,column=1)
+        name_new[i] = Entry(frame,justify=CENTER,width=40,bd=4)
+        name_new[i].grid(row=a,column=2)
+        a+=1
+        amount_newlabel[i] = Label(frame, text='Expense amount')
+        amount_newlabel[i].grid(row=a,column=1)
+        amount_new[i] = Entry(frame,justify=CENTER,width=40,bd=4)
+        amount_new[i].grid(row=a,column=2)
+        if i==6:
+            addbutton['state'] = 'disable'
+
 def delfunction():
     global i
-    name_newlabel[i].destroy()
-    name_new[i].destroy()
-    amount_newlabel[i].destroy()
-    amount_new[i].destroy()
-    i-=1
-delbutton=Button(root,text='Delete',command=delfunction)
+    try:
+        name_newlabel[i].destroy()
+        name_new[i].destroy()
+        amount_newlabel[i].destroy()
+        amount_new[i].destroy()
+        i-=1
+    except:
+        pass
+    try:
+        addbutton['state'] = 'normal'
+    except:
+        pass
+delbutton=Button(frame,text='Delete',activebackground='#00ff00',command=delfunction,justify=RIGHT,bd=4)
 delbutton.grid(row=12,column=3)
 
-addbutton=Button(root,text='Add',command=funct2)
+addbutton=Button(frame,text='Add',activebackground='#00ff00',command=funct2,bd=4)
 addbutton.grid(row=12,column=2)
 
 
@@ -141,39 +182,42 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
         row_Cells[0].text = 'Total'
         row_Cells[1].text = str(total)
         doc_name = input_save1 + '.docx'
-        doc.save(doc_name)
+        folders = os.listdir('..')
+        if "Invoices" not in folders:
+            os.mkdir('..\\Invoices')
+        doc.save('..\\Invoices\\'+doc_name)
 
         date.destroy()
-        labeldate=Label(root,text=date1)
+        labeldate=Label(frame,text=date1)
         labeldate.grid(row=2,column=2)
         month.destroy()
-        labelmonth=Label(root,text=month1)
+        labelmonth=Label(frame,text=month1)
         labelmonth.grid(row=3,column=2)
         address.destroy()
-        labeladdress=Label(root,text=address1)
+        labeladdress=Label(frame,text=address1)
         labeladdress.grid(row=4,column=2)
         rent.destroy()
-        labelrent=Label(root,text=rent1)
+        labelrent=Label(frame,text=rent1)
         labelrent.grid(row=5,column=2)
         pet.destroy()
-        labelpet=Label(root,text=pet1)
+        labelpet=Label(frame,text=pet1)
         labelpet.grid(row=6,column=2)
         watertrash.destroy()
-        labelwatertrash=Label(root,text=watertrash1)
+        labelwatertrash=Label(frame,text=watertrash1)
         labelwatertrash.grid(row=7,column=2)
         sewerage.destroy()
-        labelsewerage=Label(root,text=sewerage1)
+        labelsewerage=Label(frame,text=sewerage1)
         labelsewerage.grid(row=8,column=2)
         electricity.destroy()
-        labelelectricity=Label(root,text=electricity1)
+        labelelectricity=Label(frame,text=electricity1)
         labelelectricity.grid(row=9,column=2)
         others.destroy()
-        labelothers=Label(root,text=others1)
+        labelothers=Label(frame,text=others1)
         labelothers.grid(row=10,column=2)
         input_save.destroy()
         global filename
         filename=input_save1
-        labelinput_save=Label(root,text=input_save1)
+        labelinput_save=Label(frame,text=input_save1)
         labelinput_save.grid(row=11,column=2)
         global a
         a=12
@@ -182,9 +226,9 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
 
         for j in range(0,i):
             a+=1
-            labelname_new[j]=Label(root,text=abcdef[j][0])
+            labelname_new[j]=Label(frame,text=abcdef[j][0])
             labelname_new[j].grid(row=a,column=1)
-            labelamount_new[j]=Label(root,text=abcdef[j][1])
+            labelamount_new[j]=Label(frame,text=abcdef[j][1])
             labelamount_new[j].grid(row=a,column=2)
             name_new[j+1].destroy()
             amount_new[j+1].destroy()
@@ -198,10 +242,10 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
             file_exist_and_open.destroy()
         except Exception:
             pass
-        successlabel=Label(root,text='File successfully created on PC',fg='green')
+        successlabel=Label(frame,text='File successfully created on PC',fg='green')
         successlabel.grid(row=1,column=2)
         global uploadondrive
-        uploadondrive = Button(root, text='Upload on drive', command=googledrive_entries)
+        uploadondrive = Button(frame, text='Upload on drive',activebackground='#00ff00', command=googledrive_entries)
         uploadondrive.grid(row=1,column=1)
         button1.destroy()
 
@@ -211,7 +255,7 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
             file_exist_and_open.destroy()
         except:
             pass
-        label123=Label(root,text='Enter amount in integers or decimals only',fg='red')
+        label123=Label(frame,text='Enter amount in integers or decimals only',fg='red')
         label123.grid(row=1,column=2)
         print('Characters allowed are [1,2,3,4,5,6,7,8,9,.]') #For debugging
     except OSError:
@@ -219,44 +263,43 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
             label123.destroy()
         except:
             pass
-        file_exist_and_open=Label(root,text='The word file you mentioned is open. Close to update ',fg='red')
+        file_exist_and_open=Label(frame,text='Error:Word file is open. Close and submit',fg='red')
         file_exist_and_open.grid(row=1,column=2)
 
 
 
 
 
-button1=Button(root,text='Submit',command=lambda : func1(date.get(),month.get(),address.get(),rent.get(),pet.get(),watertrash.get(),sewerage.get(),electricity.get(),others.get(),input_save.get()))
+button1=Button(frame,text='Submit',bd=4,activebackground='#00ff00',command=lambda : func1(date.get(),month.get(),address.get(),rent.get(),pet.get(),watertrash.get(),sewerage.get(),electricity.get(),others.get(),input_save.get()))
 button1.grid(row=1,column=1)
 
-quitbutton=Button(root,text='Exit',command=root.quit)
-quitbutton.grid(row=0,column=3)
 
 
 def googledrive_entries():
     global a
-    folder_namelabel=Label(root,text='Enter the folder name you want to create/present on drive: ')
+    folder_namelabel=Label(frame,text='Enter the folder name you want to create/present on drive: ')
     folder_namelabel.grid(row=a+2,column=1)
     global folder_name
-    folder_name=Entry(root)
+    folder_name=Entry(frame,justify=CENTER,width=40,bd=4)
     folder_name.grid(row=a+2,column=2)
-    file_namelabel=Label(root,text='Enter the file name for the word document you want to give on drive: ')
+    file_namelabel=Label(frame,text='Enter the file name for the word document you want to give on drive: ')
     file_namelabel.grid(row=a+3,column=1)
     global title
-    title=Entry(root)
+    title=Entry(frame,justify=CENTER,width=40,bd=4)
     title.grid(row=a+3,column=2)
-    fullpathlabel=Label(root,text='Change path of the file if moved: ')
+
+    fullpathlabel=Label(frame,text='Do not change path if file not moved ')
     fullpathlabel.grid(row=a+4,column=1)
     global fullpath
-    fullpath=Entry(root)
+    fullpath=Entry(frame,justify=CENTER,width=40,bd=4)
     fullpath.grid(row=a+4,column=2)
     global filename,pwd
     fullpath.delete(0, END)
     pwd2slash=pwd.split('\\')
     path=''
-    for j in pwd2slash:
+    for j in pwd2slash[:-1]:
         path=path+j+'\\'
-    finalpath=path+filename+'.docx'
+    finalpath=path+'Invoices\\'+filename+'.docx'
     fullpath.insert(0,finalpath)
     submitbutton.grid(row=a+5,column=1)
     a+=5
@@ -264,30 +307,36 @@ def googledrive_entries():
     uploadondrive.destroy()
 
 
+# GoogleAuth.DEFAULT_SETTINGS[
+#     'client_config_file'] = 'C:\\Users\\darsh\\PycharmProjects\\test111\\client_secrets.json'
+
 
 def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
     from pydrive.auth import GoogleAuth
     from pydrive.drive import GoogleDrive
-    # GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = 'C:\\Users\\darsh\\PycharmProjects\\test111\\client_secrets.json'
+
     gauth = GoogleAuth()
     gauth.LocalWebserverAuth()  # Creates local webserver and auto handles authentication.
     drive = GoogleDrive(gauth)
-
+    global a
     def check_folder_exists(folder_name):
         list_of_file = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
-
+        global folder_id
         list1=[]
         for drive_folder in list_of_file:
             list1.append(drive_folder['title'])
         if folder_name in list1:
             for drive_folder in list_of_file:
                 if drive_folder['title'] == folder_name:
-                    return drive_folder['id']
+
+                    folder_id = drive_folder['id']
+                    return folder_id
 
         else:
             folder = drive.CreateFile({'title': folder_name, "mimeType": "application/vnd.google-apps.folder"})
             folder.Upload()
-            return folder['id']
+            folder_id = folder['id']
+            return folder_id
     fid1 = check_folder_exists(folder_name1)
 
     def upload_file_inside_folder(title, fid1, fullpath):
@@ -299,8 +348,8 @@ def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
     global successdrive
     try:
         upload_file_inside_folder(title1, fid1, fullpath1)
-        successdrive=Label(root,text='Successfully Uploaded on drive',fg='green')
-        successdrive.grid(row=1,column=1)
+        successdrive=Label(frame,text='Successfully Uploaded on drive',fg='green')
+        successdrive.grid(row=a,column=2)
         sendmail.grid(column=1)
         try:
             oserror.destroy()
@@ -311,31 +360,31 @@ def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
             successdrive.destroy()
         except Exception:
             pass
-        oserror=Label(root,text='Path Error in uploading on drive',fg='red')
-        oserror.grid(row=1,column=1)
+        oserror=Label(frame,text='Path Error in uploading on drive',fg='red')
+        oserror.grid(row=a,column=2)
 
+submitbutton=Button(frame,text='Submit on drive',activebackground='#00ff00',command=lambda:check_folder_exists_and_create_fileupload(folder_name.get(),title.get(),fullpath.get()))
 
-submitbutton=Button(root,text='Submit on drive',command=lambda:check_folder_exists_and_create_fileupload(folder_name.get(),title.get(),fullpath.get()))
 def sendmailfunction():
     sendmail.destroy()
     global fromadd,password,to
     global a
-    Warninglabel=Label(root,text='If using gmail, Turn LESS SECURE APP access ON if it is OFF ')
-    Warninglabel.grid(row=a+1,column=1)
-    fromaddlabel=Label(root, text='Email from')
-    fromadd=Entry(root)
-    fromaddlabel.grid(row=a+2,column=1)
-    fromadd.grid(row=a+2,column=2)
-    passwordlabel=Label(root,text='Password')
-    passwordlabel.grid(row=a+3,column=1)
-    password=Entry(root)
-    password.grid(row=a+3,column=2)
-    tolabel=Label(root,text='Send to')
-    tolabel.grid(row=a+4,column=1)
-    to=Entry(root)
-    to.grid(row=a+4,column=2)
-    submitmail.grid(row=a+5, column=2)
-    a+=5
+    # Warninglabel=Label(frame,text='If using gmail, Turn LESS SECURE APP access ON if it is OFF ')
+    # Warninglabel.grid(row=a+1,column=1)
+    # fromaddlabel=Label(frame, text='Email from')
+    # fromadd=Entry(frame,justify=CENTER)
+    # fromaddlabel.grid(row=a+2,column=1)
+    # fromadd.grid(row=a+2,column=2)
+    # passwordlabel=Label(frame,text='Password')
+    # passwordlabel.grid(row=a+3,column=1)
+    # password=Entry(frame,justify=CENTER)
+    # password.grid(row=a+3,column=2)
+    tolabel=Label(frame,text='Send to')
+    tolabel.grid(row=a+2,column=1)
+    to=Entry(frame,justify=CENTER,width=40,bd=4)
+    to.grid(row=a+2,column=2)
+    submitmail.grid(row=a+5, column=1)
+    a+=2
 def bindmailelements(from1,password1,to1):
     from email.message import EmailMessage
 
@@ -347,10 +396,11 @@ def bindmailelements(from1,password1,to1):
     mssg['To'] = totenant
     global monthyear
     mssg['Subject'] = 'Rent Invoice '+(monthyear)+ ' Uploaded on Drive'
-
+    global folder_id
     body = ''' Hi, 
 
     Your monthly rent invoice has been uploaded on the drive. 
+    https://drive.google.com/drive/folders/'''+str(folder_id)+ '''
 
     Thanks. '''
 
@@ -372,18 +422,87 @@ def bindmailelements(from1,password1,to1):
             loginerror.destroy()
         except Exception:
             pass
-        successmail=Label(root,text='Mail sent',bg='green')
+        successmail=Label(frame,text='Mail sent',bg='green')
         successmail.grid(row=a+1,column=1)
     except Exception:
         try:
             successmail.destroy()
         except Exception:
             pass
-        loginerror=Label(root,text='Login Error in sending email',bg='red')
+        loginerror=Label(frame,text='Login Error in sending email',fg='red')
         loginerror.grid(row=a+1,column=1)
+def bindmailelementsusingAPI(to1):
+    from Google import Create_Service
+    import base64
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+    global monthyear, a
+    global folder_id
+    CLIENT_SECRET_FILE = 'client_secrets.json'
+    API_NAME = 'gmail'
+    API_VERSION = 'v1'
+    SCOPES = ['https://mail.google.com/']
+    global authorizeerror,successsent,sendingerror
 
-sendmail=Button(root,text='Send Notification Email',command=sendmailfunction)
-submitmail=Button(root,text='Submit Email and Password',command=lambda:bindmailelements(fromadd.get(),password.get(),to.get()))
+    try:
+        service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+
+    except:
+        try:
+            successsent.destroy()
+        except:
+            pass
+        try:
+            sendingerror.destroy()
+        except:
+            pass
+        authorizeerror = Label(frame, text='Authorization file moved', fg='red')
+        authorizeerror.grid(row=a + 1, column=2)
+    try:
+        totenant = to1
+        emailMsg = ''' Hi, 
+    
+        Your monthly rent invoice has been uploaded on the drive. 
+        https://drive.google.com/drive/folders/'''+str(folder_id)+ '''
+    
+        Thanks. '''
+        mimeMessage = MIMEMultipart()
+        mimeMessage['to'] = totenant
+        mimeMessage['subject'] = 'Rent Invoice '+(monthyear)+ ' Uploaded on Drive'
+        mimeMessage.attach(MIMEText(emailMsg, 'plain'))
+        raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
+
+        message = service.users().messages().send(userId='me', body={'raw': raw_string}).execute()
+        print(message)
+        try:
+            authorizeerror.destroy()
+        except:
+            pass
+        try:
+            sendingerror.destroy()
+        except:
+            pass
+        successsent = Label(frame, text='Mail successfully sent', fg='green')
+        successsent.grid(row=a + 1, column=2)
+
+    except:
+        try:
+            authorizeerror.destroy()
+        except:
+            pass
+        try:
+            successsent.destroy()
+        except:
+            pass
+        sendingerror = Label(frame, text='Error in sending email', fg='red')
+        sendingerror.grid(row=a + 1, column=2)
+
+sendmail=Button(frame,text='Send Notification Email',activebackground='#00ff00',command=sendmailfunction)
+
+# submitmail=Button(frame,text='Submit Email and Password',command=lambda:bindmailelements(fromadd.get(),password.get(),to.get()))#Use for SMTP
+
+submitmail=Button(frame,text='Send email',activebackground='#00ff00',command=lambda:bindmailelementsusingAPI(to.get()))
+frame.pack()
 root.mainloop()
 
 
