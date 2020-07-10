@@ -2,38 +2,51 @@ import docx
 from tkinter import *
 import os
 pwd=os.getcwd()
-
+import sys
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 root=Tk()
+
 root.title('Rent Invoice Automation')
 # root.attributes('-fullscreen', True)
 root.state('zoomed')
 try:
-    root.wm_iconbitmap('homelogo.ico')
+    root.wm_iconbitmap("C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\homelogo.ico")
+    try:
+        icon_path=resource_path('C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\homelogo.ico') #path where the icon image is located in the computer
+        root.iconbitmap(icon_path)
+    except:
+        pass
 except:
     pass
 # root.geometry('700x400')
 # root.configure(bg='blue')
 image_num=0
-background_image = PhotoImage(file='landscape.png')
-background_label = Label(root,image=background_image)
-background_label.place(x=0,y=0)
-quitbutton=Button(root,text='X',bg='red',fg='white',activebackground='#00ff00',command=root.quit,bd=4,width=2,height=1)
-quitbutton.pack(side=TOP,anchor=NE)
-minimize_button=Button(root, text = "-",activebackground='#00ff00', command = lambda: root.wm_state("iconic"),width=2,height=1,bd=4).pack(side=TOP,anchor=NE)
+try:
+    background_image = PhotoImage(file="C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\landscape.png") #path where the background image is stored in computer
+    background_label = Label(root,image=background_image)
+    background_label.place(x=0,y=0)
+except:
+    pass
+# quitbutton=Button(root,text='X',bg='red',fg='white',activebackground='#00ff00',command=root.quit,bd=4,width=2,height=1)
+# quitbutton.pack(side=TOP,anchor=NE)
+# minimize_button=Button(root, text = "-",activebackground='#00ff00', command = lambda: root.wm_state("iconic"),width=2,height=1,bd=4).pack(side=TOP,anchor=NE)
 
 
 
 def background():
 
+    try:
+        global background_label
+        background_label.destroy()
+        backgroundbutton.destroy()
 
-    global background_label
-    background_label.destroy()
-    backgroundbutton.destroy()
-
-    # except:
-    #     pass
-backgroundbutton = Button(root,text='Remove Background',activebackground='#00ff00',command=background)
-backgroundbutton.pack(side=BOTTOM)
+    except:
+        pass
+# backgroundbutton = Button(root,text='Remove Background',activebackground='#00ff00',command=background)
+# backgroundbutton.pack(side=BOTTOM)
 
 frame = Frame(root,bd=5,width=500,height=500,relief=SUNKEN,highlightthickness=5,highlightcolor='black',highlightbackground='grey')
 datelabel=Label(frame,text='Date')
@@ -183,10 +196,12 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
         row_Cells[1].text = str(total)
         doc_name = input_save1 + '.docx'
         folders = os.listdir('..')
-        if "Invoices" not in folders:
-            os.mkdir('..\\Invoices')
-        doc.save('..\\Invoices\\'+doc_name)
-
+        try:
+            if "Invoices" not in folders:
+                os.mkdir('..\\Invoices')
+            doc.save('..\\Invoices\\'+doc_name)
+        except OSError:
+            doc.save(doc_name)
         date.destroy()
         labeldate=Label(frame,text=date1)
         labeldate.grid(row=2,column=2)
@@ -242,7 +257,7 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
             file_exist_and_open.destroy()
         except Exception:
             pass
-        successlabel=Label(frame,text='File successfully created on PC',fg='green')
+        successlabel=Label(frame,text='Word file created in Invoices in parent directory',fg='green')
         successlabel.grid(row=1,column=2)
         global uploadondrive
         uploadondrive = Button(frame, text='Upload on drive',activebackground='#00ff00', command=googledrive_entries)
@@ -314,9 +329,12 @@ def googledrive_entries():
 def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
     from pydrive.auth import GoogleAuth
     from pydrive.drive import GoogleDrive
+    GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = "C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\client_secrets.json"
 
+    # gauth.LoadCredentialsFile()
     gauth = GoogleAuth()
-    gauth.LocalWebserverAuth()  # Creates local webserver and auto handles authentication.
+    # gauth.LocalWebserverAuth()
+    # Creates local webserver and auto handles authentication.
     drive = GoogleDrive(gauth)
     global a
     def check_folder_exists(folder_name):
@@ -438,7 +456,7 @@ def bindmailelementsusingAPI(to1):
     from email.mime.text import MIMEText
     global monthyear, a
     global folder_id
-    CLIENT_SECRET_FILE = 'client_secrets.json'
+    CLIENT_SECRET_FILE = "C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\client_secrets.json"
     API_NAME = 'gmail'
     API_VERSION = 'v1'
     SCOPES = ['https://mail.google.com/']
