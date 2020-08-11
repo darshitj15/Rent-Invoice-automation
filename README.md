@@ -20,5 +20,10 @@ Check the main repository to see images of various sections of the software.
 ## Using the app
 I have created an app for the above software. Contact me on darshitjagetiya15@gmail.com if you are not a python user and just interested in using the app. 
 ## Glimpse of the app
-![alt text](https://github.com/darshitj15/Rent-Invoice-automation/blob/master/Save_on_pc.png?raw=true)
-![alt text](https://github.com/darshitj15/Rent-Invoice-automation/blob/master/Auto%20Email%2C%20Drive%20Upload.png?raw=true)
+![alt text](https://github.com/darshitj15/Rent-Invoice-automation/blob/master/Look_1.png?raw=true)
+![alt text](https://github.com/darshitj15/Rent-Invoice-automation/blob/master/Look_2.png?raw=true)
+![alt text](https://github.com/darshitj15/Rent-Invoice-automation/blob/master/Look_3.png?raw=true)
+![alt text](https://github.com/darshitj15/Rent-Invoice-automation/blob/master/Look_4.png?raw=true)
+![alt text](https://github.com/darshitj15/Rent-Invoice-automation/blob/master/Look_5.png?raw=true)
+![alt text](https://github.com/darshitj15/Rent-Invoice-automation/blob/master/Look_6.png?raw=true)
+
