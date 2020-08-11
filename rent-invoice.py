@@ -12,10 +12,15 @@ root=Tk()
 root.title('Rent Invoice Automation')
 # root.attributes('-fullscreen', True)
 root.state('zoomed')
+# sizex = 800
+# sizey = 500
+# posx  = 300
+# posy  = 50
+# root.wm_geometry("%dx%d+%d+%d" % (sizex, sizey, posx, posy))
 try:
     root.wm_iconbitmap("C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\homelogo.ico")
     try:
-        icon_path=resource_path('C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\homelogo.ico') #path where the icon image is located in the computer
+        icon_path=resource_path('C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\homelogo.ico')
         root.iconbitmap(icon_path)
     except:
         pass
@@ -25,7 +30,7 @@ except:
 # root.configure(bg='blue')
 image_num=0
 try:
-    background_image = PhotoImage(file="C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\landscape.png") #path where the background image is stored in computer
+    background_image = PhotoImage(file="C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\landscape.png")
     background_label = Label(root,image=background_image)
     background_label.place(x=0,y=0)
 except:
@@ -48,7 +53,23 @@ def background():
 # backgroundbutton = Button(root,text='Remove Background',activebackground='#00ff00',command=background)
 # backgroundbutton.pack(side=BOTTOM)
 
-frame = Frame(root,bd=5,width=500,height=500,relief=SUNKEN,highlightthickness=5,highlightcolor='black',highlightbackground='grey')
+def myfunction(event):
+    canvas.configure(scrollregion=canvas.bbox("all"),width=700,height=400)
+
+myframe = Frame(root,bd=5,width=700,height=600,relief=SUNKEN,highlightthickness=5,highlightcolor='black',highlightbackground='white')
+myframe.place(x=300,y=0)
+
+canvas = Canvas(myframe)
+frame = Frame(canvas)
+
+myscrollbar=Scrollbar(myframe,orient="vertical",command=canvas.yview)
+canvas.configure(yscrollcommand=myscrollbar.set)
+myscrollbar.pack(side="right",fill="y")
+canvas.pack(side="right")
+canvas.create_window((0,0),window=frame,anchor='nw')
+frame.bind("<Configure>",myfunction)
+
+
 datelabel=Label(frame,text='Date')
 datelabel.grid(row=2,column=1)
 date = Entry(frame,justify=CENTER,width=40,bd=4)
@@ -99,6 +120,25 @@ input_savelabel.grid(row=11,column=1)
 input_save=Entry(frame,justify=CENTER,width=40,bd=4)
 input_save.grid(row=11,column=2)
 
+import sqlite3
+conn = sqlite3.connect("test1.db")
+cur = conn.cursor()
+
+cur.execute('''
+           CREATE TABLE IF NOT EXISTS invoices
+           (date varchar(250), 
+           invoice_month_year varchar(250),
+           address varchar(250) ,
+           rent decimal (50,4),
+           pet_fees decimal (50,4),
+           water_trash_fees decimal (50,4),
+           sewerage_fees decimal (50,4),
+           electricity_charges decimal (50,4),
+           other_fees decimal (50,4),
+           total decimal (50,4)
+           )''')
+# except:
+#     pass
 
 abcde=None
 i=0
@@ -109,22 +149,22 @@ amount_new = {}
 a=12
 def funct2():
     global i
-    if i <=5:
+    # if i <=5:
 
-        global a
-        i+=1
-        a+=1
-        name_newlabel[i] = Label(frame, text='Expense name')
-        name_newlabel[i].grid(row=a,column=1)
-        name_new[i] = Entry(frame,justify=CENTER,width=40,bd=4)
-        name_new[i].grid(row=a,column=2)
-        a+=1
-        amount_newlabel[i] = Label(frame, text='Expense amount')
-        amount_newlabel[i].grid(row=a,column=1)
-        amount_new[i] = Entry(frame,justify=CENTER,width=40,bd=4)
-        amount_new[i].grid(row=a,column=2)
-        if i==6:
-            addbutton['state'] = 'disable'
+    global a
+    i+=1
+    a+=1
+    name_newlabel[i] = Label(frame, text='Expense name')
+    name_newlabel[i].grid(row=a,column=1)
+    name_new[i] = Entry(frame,justify=CENTER,width=40,bd=4)
+    name_new[i].grid(row=a,column=2)
+    a+=1
+    amount_newlabel[i] = Label(frame, text='Expense amount')
+    amount_newlabel[i].grid(row=a,column=1)
+    amount_new[i] = Entry(frame,justify=CENTER,width=40,bd=4)
+    amount_new[i].grid(row=a,column=2)
+        # if i==6:
+        #     addbutton['state'] = 'disable'
 
 def delfunction():
     global i
@@ -153,8 +193,7 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
     global i
     global label123
     global file_exist_and_open
-    addbutton.destroy()
-    delbutton.destroy()
+
     abcdef=[]
 
     try:
@@ -195,11 +234,11 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
         row_Cells[0].text = 'Total'
         row_Cells[1].text = str(total)
         doc_name = input_save1 + '.docx'
-        folders = os.listdir('..')
+        folders = os.listdir()
         try:
             if "Invoices" not in folders:
-                os.mkdir('..\\Invoices')
-            doc.save('..\\Invoices\\'+doc_name)
+                os.mkdir('Invoices')
+            doc.save('Invoices\\'+doc_name)
         except OSError:
             doc.save(doc_name)
         date.destroy()
@@ -234,6 +273,8 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
         filename=input_save1
         labelinput_save=Label(frame,text=input_save1)
         labelinput_save.grid(row=11,column=2)
+        addbutton.destroy()
+        delbutton.destroy()
         global a
         a=12
         labelname_new={}
@@ -257,12 +298,16 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
             file_exist_and_open.destroy()
         except Exception:
             pass
-        successlabel=Label(frame,text='Word file created in Invoices in parent directory',fg='green')
+        successlabel=Label(frame,text='Word file created in Invoices in same directory',fg='green')
         successlabel.grid(row=1,column=2)
         global uploadondrive
         uploadondrive = Button(frame, text='Upload on drive',activebackground='#00ff00', command=googledrive_entries)
         uploadondrive.grid(row=1,column=1)
         button1.destroy()
+
+        #integrating with DB
+        cur.execute("INSERT INTO invoices(date,invoice_month_year,address,rent,pet_fees,water_trash_fees,sewerage_fees,electricity_charges,other_fees,total) VALUES(?,?,?,?,?,?,?,?,?,?)",(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,others1,total))
+        conn.commit()
 
         return doc_name
     except ValueError:
@@ -520,7 +565,7 @@ sendmail=Button(frame,text='Send Notification Email',activebackground='#00ff00',
 # submitmail=Button(frame,text='Submit Email and Password',command=lambda:bindmailelements(fromadd.get(),password.get(),to.get()))#Use for SMTP
 
 submitmail=Button(frame,text='Send email',activebackground='#00ff00',command=lambda:bindmailelementsusingAPI(to.get()))
-frame.pack()
+
 root.mainloop()
 
 
