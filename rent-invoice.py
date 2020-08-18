@@ -1,48 +1,43 @@
 import docx
 from tkinter import *
 import os
-pwd=os.getcwd()
+
+pwd = os.getcwd()
 import sys
+
+
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
-root=Tk()
+
+
+root = Tk()
 
 root.title('Rent Invoice Automation')
-# root.attributes('-fullscreen', True)
 root.state('zoomed')
-# sizex = 800
-# sizey = 500
-# posx  = 300
-# posy  = 50
-# root.wm_geometry("%dx%d+%d+%d" % (sizex, sizey, posx, posy))
 try:
     root.wm_iconbitmap("C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\homelogo.ico")
     try:
-        icon_path=resource_path('C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\homelogo.ico')
+        icon_path = resource_path('C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\homelogo.ico')
         root.iconbitmap(icon_path)
     except:
         pass
 except:
     pass
-# root.geometry('700x400')
-# root.configure(bg='blue')
-image_num=0
+
+image_num = 0
+
+
 try:
     background_image = PhotoImage(file="C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\landscape.png")
     background_label = Label(root,image=background_image)
     background_label.place(x=0,y=0)
 except:
     pass
-# quitbutton=Button(root,text='X',bg='red',fg='white',activebackground='#00ff00',command=root.quit,bd=4,width=2,height=1)
-# quitbutton.pack(side=TOP,anchor=NE)
-# minimize_button=Button(root, text = "-",activebackground='#00ff00', command = lambda: root.wm_state("iconic"),width=2,height=1,bd=4).pack(side=TOP,anchor=NE)
-
 
 
 def background():
-
     try:
         global background_label
         background_label.destroy()
@@ -50,180 +45,180 @@ def background():
 
     except:
         pass
-# backgroundbutton = Button(root,text='Remove Background',activebackground='#00ff00',command=background)
-# backgroundbutton.pack(side=BOTTOM)
+
 
 def myfunction(event):
-    canvas.configure(scrollregion=canvas.bbox("all"),width=700,height=400)
+    canvas.configure(scrollregion=canvas.bbox("all"), width=700, height=400)
 
-myframe = Frame(root,bd=5,width=700,height=600,relief=SUNKEN,highlightthickness=5,highlightcolor='black',highlightbackground='white')
-myframe.place(x=300,y=0)
+
+myframe = Frame(root, bd=5, width=700, height=600, relief=SUNKEN, highlightthickness=5, highlightcolor='black',
+                highlightbackground='white')
+myframe.place(x=300, y=0)
 
 canvas = Canvas(myframe)
 frame = Frame(canvas)
 
-myscrollbar=Scrollbar(myframe,orient="vertical",command=canvas.yview)
+myscrollbar = Scrollbar(myframe, orient="vertical", command=canvas.yview)
 canvas.configure(yscrollcommand=myscrollbar.set)
-myscrollbar.pack(side="right",fill="y")
+myscrollbar.pack(side="right", fill="y")
 canvas.pack(side="right")
-canvas.create_window((0,0),window=frame,anchor='nw')
-frame.bind("<Configure>",myfunction)
+canvas.create_window((0, 0), window=frame, anchor='nw')
+frame.bind("<Configure>", myfunction)
 
-
-datelabel=Label(frame,text='Date')
-datelabel.grid(row=2,column=1)
-date = Entry(frame,justify=CENTER,width=40,bd=4)
-date.grid(row=2,column=2)
-
-monthlabel=Label(frame,text='Invoice Month-Year')
-monthlabel.grid(row=3,column=1)
-month = Entry(frame,justify=CENTER,width=40,bd=4)
-month.grid(row=3,column=2)
-
-addresslabel=Label(frame,text='Address')
-addresslabel.grid(row=4,column=1)
-address = Entry(frame,justify=CENTER,width=40,bd=4)
-address.grid(row=4,column=2)
-
-rentlabel=Label(frame,text='Rent')
-rentlabel.grid(row=5,column=1)
-rent = Entry(frame,justify=CENTER,width=40,bd=4)
-rent.grid(row=5,column=2)
-
-petlabel=Label(frame,text='Pet fees')
-petlabel.grid(row=6, column=1)
-pet = Entry(frame,justify=CENTER,width=40,bd=4)
-pet.grid(row=6,column=2)
-
-watertrashlabel=Label(frame,text='Water and Trash Fees')
-watertrashlabel.grid(row=7,column=1)
-watertrash = Entry(frame,justify=CENTER,width=40,bd=4)
-watertrash.grid(row=7,column=2)
-
-seweragelabel=Label(frame,text='Sewerage fees')
-seweragelabel.grid(row=8,column=1)
-sewerage = Entry(frame,justify=CENTER,width=40,bd=4)
-sewerage.grid(row=8,column=2)
-
-electricitylabel=Label(frame,text='Electricity Charges')
-electricitylabel.grid(row=9,column=1)
-electricity = Entry(frame,justify=CENTER,width=40,bd=4)
-electricity.grid(row=9,column=2)
-
-otherslabel=Label(frame,text='Other Fees')
-otherslabel.grid(row=10,column=1)
-others = Entry(frame,justify=CENTER,width=40,bd=4)
-others.grid(row=10,column=2)
-
-input_savelabel=Label(frame,text='New file name without extension (Existing file might be overwritten)')
-input_savelabel.grid(row=11,column=1)
-input_save=Entry(frame,justify=CENTER,width=40,bd=4)
-input_save.grid(row=11,column=2)
+from tkinter import messagebox
 
 import sqlite3
-conn = sqlite3.connect("test1.db")
+
+conn = sqlite3.connect("rent-invoice.db")
 cur = conn.cursor()
+# cur.execute('SELECT COUNT(*) FROM MY_TABLE;')
+# exist = cur.fetchone()
 
-cur.execute('''
-           CREATE TABLE IF NOT EXISTS invoices
-           (date varchar(250), 
-           invoice_month_year varchar(250),
-           address varchar(250) ,
-           rent decimal (50,4),
-           pet_fees decimal (50,4),
-           water_trash_fees decimal (50,4),
-           sewerage_fees decimal (50,4),
-           electricity_charges decimal (50,4),
-           other_fees decimal (50,4),
-           total decimal (50,4)
-           )''')
-# except:
-#     pass
+try:
+    column_sql = cur.execute("SELECT * from 'invoices' limit 1")
+    col_name = [i[0] for i in column_sql.description]
+    # print(col_name)
+except:
+    cur.execute('''
+               CREATE TABLE IF NOT EXISTS invoices
+               (Date varchar(250), 
+               `Invoice Month-Year` varchar(250),
+               Address varchar(250) ,
+               Rent decimal (50,4),
+               `Pet fees` decimal (50,4),
+               `Water and Trash Fees` decimal (50,4),
+               `Sewerage fees` decimal (50,4),
+               `Electricity Charges` decimal (50,4),
+               `Other Fees` decimal (50,4),
+               Total decimal (50,4)
+               )''')
+    messagebox.showinfo("Welcome",
+                        'The extra expenses you add will be saved for future inputs. To reset, reinstall the app')
 
-abcde=None
-i=0
-name_newlabel={}
-amount_newlabel={}
-name_new={}
+expenses = ['Date', 'Invoice Month-Year', 'Address', 'Rent', 'Pet fees', 'Water and Trash Fees', 'Sewerage fees',
+            'Electricity Charges', 'Other Fees']
+
+expenses_update = expenses
+try:
+    
+    if len(col_name) != (len(expenses) + 1):
+        default_len = len(expenses)
+        new_len = len(col_name) - 1
+        extras = new_len - default_len
+        # print(extras)
+        for extra in range(extras):
+            num = default_len + extra + 1
+            # print(num)
+            if col_name[num] != 'Total':
+                expenses_update.append(col_name[num])
+                
+except:
+    pass
+
+i = 2
+labels = {}
+newlabel_entry = {}
+k = 0
+for expense in expenses_update:
+    labels[k] = Label(frame, text=expense)
+    labels[k].grid(row=i, column=1)
+    newlabel_entry[k] = Entry(frame, justify=CENTER, width=40, bd=4)
+    newlabel_entry[k].grid(row=i, column=2)
+    k += 1
+    i += 1
+
+row_number_for_saving_file = i
+input_savelabel = Label(frame, text='New file name without extension (Existing file might be overwritten)')
+input_savelabel.grid(row=i, column=1)
+input_save = Entry(frame, justify=CENTER, width=40, bd=4)
+input_save.grid(row=i, column=2)
+i += 1
+
+abcde = None
+name_newlabel = {}
+amount_newlabel = {}
+name_new = {}
 amount_new = {}
-a=12
+a = 0
+
+
 def funct2():
     global i
-    # if i <=5:
-
     global a
-    i+=1
-    a+=1
-    name_newlabel[i] = Label(frame, text='Expense name')
-    name_newlabel[i].grid(row=a,column=1)
-    name_new[i] = Entry(frame,justify=CENTER,width=40,bd=4)
-    name_new[i].grid(row=a,column=2)
-    a+=1
-    amount_newlabel[i] = Label(frame, text='Expense amount')
-    amount_newlabel[i].grid(row=a,column=1)
-    amount_new[i] = Entry(frame,justify=CENTER,width=40,bd=4)
-    amount_new[i].grid(row=a,column=2)
-        # if i==6:
-        #     addbutton['state'] = 'disable'
+    i += 1
+    a += 1
+    name_newlabel[a] = Label(frame, text='Expense name')
+    name_newlabel[a].grid(row=i, column=1)
+    name_new[a] = Entry(frame, justify=CENTER, width=40, bd=4)
+    name_new[a].grid(row=i, column=2)
+    i += 1
+    amount_newlabel[a] = Label(frame, text='Expense amount')
+    amount_newlabel[a].grid(row=i, column=1)
+    amount_new[a] = Entry(frame, justify=CENTER, width=40, bd=4)
+    amount_new[a].grid(row=i, column=2)
+
+
+addbutton = Button(frame, text='Add', activebackground='#00ff00', command=funct2, bd=4)
+addbutton.grid(row=i, column=2)
+
 
 def delfunction():
-    global i
+    global a
     try:
-        name_newlabel[i].destroy()
-        name_new[i].destroy()
-        amount_newlabel[i].destroy()
-        amount_new[i].destroy()
-        i-=1
+        name_newlabel[a].destroy()
+        name_new[a].destroy()
+        amount_newlabel[a].destroy()
+        amount_new[a].destroy()
+        a -= 1
     except:
         pass
-    try:
-        addbutton['state'] = 'normal'
-    except:
-        pass
-delbutton=Button(frame,text='Delete',activebackground='#00ff00',command=delfunction,justify=RIGHT,bd=4)
-delbutton.grid(row=12,column=3)
-
-addbutton=Button(frame,text='Add',activebackground='#00ff00',command=funct2,bd=4)
-addbutton.grid(row=12,column=2)
 
 
+delbutton = Button(frame, text='Delete', activebackground='#00ff00', command=delfunction, justify=RIGHT, bd=4)
+delbutton.grid(row=i, column=3)
 
-def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,others1,input_save1):
 
-    global i
+def func1():
+    global a
     global label123
     global file_exist_and_open
 
-    abcdef=[]
+    abcdef = []
 
     try:
-        for j in range(1,i+1):
+        for j in range(1, a + 1):
             abc = name_new[j].get()
             abcd = amount_new[j].get()
-            abcde=[abc,abcd]
+            abcde = [abc, abcd]
             abcdef.append(abcde)
     except:
         pass
-    global monthyear
-    monthyear=month1
+    global k
+    all_expenses = []
+    for m in range(3, k):
+        expense_amount_entered = newlabel_entry[m].get()
+        expenses_label_list = [labels[m].cget("text"), expense_amount_entered]
+        all_expenses.append(expenses_label_list)
+    date_get = newlabel_entry[0].get()
+    global inv_get
+    inv_get = newlabel_entry[1].get()
+    add_get = newlabel_entry[2].get()
+    input_save1 = input_save.get()
+
     doc = docx.Document()
-    doc.add_heading('Date: ' + date1, 5)
-    doc.add_heading('Invoice Month:' + month1, 5)
-    doc.add_heading('Property Address: ' + address1, 5)
+    doc.add_heading('Date: ' + date_get, 5)
+    doc.add_heading('Invoice Month:' + inv_get, 5)
+    doc.add_heading('Property Address: ' + add_get, 5)
     doc.add_paragraph()
     doc.add_paragraph()
-    records = [['rent', rent1],
-               ['Pet fees', pet1],
-               ['Water & Trash (City of Sacramento)', watertrash1],
-               ['Sewerage (Sac County)', sewerage1],
-               ['Electricity (SMUD)', electricity1],
-               [' Others (if any)', others1]]
-    if abcdef!=[]:
+    records = all_expenses
+        if abcdef != []:
         for j in abcdef:
             records.append(j)
+         
     try:
-        expense_values=[float(i[1]) for i in records]
-        total=sum(expense_values)
+        expense_values = [float(i[1]) for i in records]
+        total = sum(expense_values)
         table1 = doc.add_table(rows=0, cols=2)
         table1.style = 'Table Grid'
         for reason, amount in records:
@@ -238,160 +233,145 @@ def func1(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,ot
         try:
             if "Invoices" not in folders:
                 os.mkdir('Invoices')
-            doc.save('Invoices\\'+doc_name)
+            doc.save('Invoices\\' + doc_name)
         except OSError:
             doc.save(doc_name)
-        date.destroy()
-        labeldate=Label(frame,text=date1)
-        labeldate.grid(row=2,column=2)
-        month.destroy()
-        labelmonth=Label(frame,text=month1)
-        labelmonth.grid(row=3,column=2)
-        address.destroy()
-        labeladdress=Label(frame,text=address1)
-        labeladdress.grid(row=4,column=2)
-        rent.destroy()
-        labelrent=Label(frame,text=rent1)
-        labelrent.grid(row=5,column=2)
-        pet.destroy()
-        labelpet=Label(frame,text=pet1)
-        labelpet.grid(row=6,column=2)
-        watertrash.destroy()
-        labelwatertrash=Label(frame,text=watertrash1)
-        labelwatertrash.grid(row=7,column=2)
-        sewerage.destroy()
-        labelsewerage=Label(frame,text=sewerage1)
-        labelsewerage.grid(row=8,column=2)
-        electricity.destroy()
-        labelelectricity=Label(frame,text=electricity1)
-        labelelectricity.grid(row=9,column=2)
-        others.destroy()
-        labelothers=Label(frame,text=others1)
-        labelothers.grid(row=10,column=2)
+        label_date = Label(frame, text=date_get)
+        label_date.grid(row=2, column=2)
+        label_inv = Label(frame, text=inv_get)
+        label_inv.grid(row=3, column=2)
+        label_add = Label(frame, text=add_get)
+        label_add.grid(row=4, column=2)
+        row_num = 5
+        for entry_to_label in records:
+            values = entry_to_label[1]
+            new_entries = Label(frame, text=values)
+            new_entries.grid(row=row_num, column=2)
+            row_num += 1
+        for entry in range(0, len(newlabel_entry)):
+            newlabel_entry[entry].destroy()
+        newlabel_entry[0].destroy()
+        newlabel_entry[1].destroy()
+        newlabel_entry[2].destroy()
         input_save.destroy()
+
         global filename
-        filename=input_save1
-        labelinput_save=Label(frame,text=input_save1)
-        labelinput_save.grid(row=11,column=2)
+        filename = input_save1
+        labelinput_save = Label(frame, text=input_save1)
+        labelinput_save.grid(row=row_number_for_saving_file, column=2)
         addbutton.destroy()
         delbutton.destroy()
-        global a
-        a=12
-        labelname_new={}
-        labelamount_new={}
+        global i
+        labelname_new = {}
+        labelamount_new = {}
 
-        for j in range(0,i):
-            a+=1
-            labelname_new[j]=Label(frame,text=abcdef[j][0])
-            labelname_new[j].grid(row=a,column=1)
-            labelamount_new[j]=Label(frame,text=abcdef[j][1])
-            labelamount_new[j].grid(row=a,column=2)
-            name_new[j+1].destroy()
-            amount_new[j+1].destroy()
-            name_newlabel[j+1].destroy()
-            amount_newlabel[j+1].destroy()
-        try:
-            label123.destroy()
-        except Exception:
-            pass
-        try:
-            file_exist_and_open.destroy()
-        except Exception:
-            pass
-        successlabel=Label(frame,text='Word file created in Invoices in same directory',fg='green')
-        successlabel.grid(row=1,column=2)
+        for j in range(0, a):
+            i += 1
+            labelname_new[j] = Label(frame, text=abcdef[j][0])
+            labelname_new[j].grid(row=i, column=1)
+            labelamount_new[j] = Label(frame, text=abcdef[j][1])
+            labelamount_new[j].grid(row=i, column=2)
+            name_new[j + 1].destroy()
+            amount_new[j + 1].destroy()
+            name_newlabel[j + 1].destroy()
+            amount_newlabel[j + 1].destroy()
+        messagebox.showinfo('Success', 'Word file created in the Invoices directory')
+        # successlabel = Label(frame, text='Word file created in Invoices in same directory', fg='green')
+        # successlabel.grid(row=1, column=2)
         global uploadondrive
-        uploadondrive = Button(frame, text='Upload on drive',activebackground='#00ff00', command=googledrive_entries)
-        uploadondrive.grid(row=1,column=1)
+        uploadondrive = Button(frame, text='Upload on drive', activebackground='#00ff00', command=googledrive_entries)
+        uploadondrive.grid(row=1, column=1)
         button1.destroy()
+        try:
+            # integrating with DB
+            cur.execute(
+                "INSERT INTO invoices('Date', 'Invoice Month-Year', 'Address') VALUES(?,?,?)",
+                (date_get, inv_get, add_get))
+            for record in records:
+                if record[0] not in expenses_update:
+                    query = "ALTER TABLE invoices ADD COLUMN `" + record[0] + "`decimal (50,4)"
+                    cur.execute(query)
 
-        #integrating with DB
-        cur.execute("INSERT INTO invoices(date,invoice_month_year,address,rent,pet_fees,water_trash_fees,sewerage_fees,electricity_charges,other_fees,total) VALUES(?,?,?,?,?,?,?,?,?,?)",(date1,month1,address1,rent1,pet1,watertrash1,sewerage1,electricity1,others1,total))
-        conn.commit()
+            for record in records:
+                query = "UPDATE invoices SET `" + str(
+                    record[0]) + "` = (?) WHERE (Date=(?) AND Address=(?)) AND `Invoice Month-Year`=(?)"
+                # print(query)
+                cur.execute(query, (record[1], date_get, add_get, inv_get))
+            cur.execute("UPDATE invoices SET Total = (?) WHERE (Date=(?) AND Address=(?)) AND `Invoice Month-Year`=(?)",
+                        (total, date_get, add_get, inv_get))
+            conn.commit()
+        except:
+            messagebox.showerror('Error',
+                                 'Invoice created but failed to upload on Database. The file can still be uploaded on drive.')
 
         return doc_name
     except ValueError:
-        try:
-            file_exist_and_open.destroy()
-        except:
-            pass
-        label123=Label(frame,text='Enter amount in integers or decimals only',fg='red')
-        label123.grid(row=1,column=2)
-        print('Characters allowed are [1,2,3,4,5,6,7,8,9,.]') #For debugging
+        messagebox.showerror('Error', 'Enter amount in integers or decimals only')
+        
     except OSError:
-        try:
-            label123.destroy()
-        except:
-            pass
-        file_exist_and_open=Label(frame,text='Error:Word file is open. Close and submit',fg='red')
-        file_exist_and_open.grid(row=1,column=2)
+        messagebox.showerror('Error',
+                             'Word file name you mentioned is already open. Close and submit to update the same file.')
 
 
-
-
-
-button1=Button(frame,text='Submit',bd=4,activebackground='#00ff00',command=lambda : func1(date.get(),month.get(),address.get(),rent.get(),pet.get(),watertrash.get(),sewerage.get(),electricity.get(),others.get(),input_save.get()))
-button1.grid(row=1,column=1)
-
+button1 = Button(frame, text='Submit', bd=4, activebackground='#00ff00', command=func1)
+button1.grid(row=1, column=1)
 
 
 def googledrive_entries():
-    global a
-    folder_namelabel=Label(frame,text='Enter the folder name you want to create/present on drive: ')
-    folder_namelabel.grid(row=a+2,column=1)
+    global i
+    folder_namelabel = Label(frame, text='Enter the folder name you want to create/present on drive: ')
+    folder_namelabel.grid(row=i + 2, column=1)
     global folder_name
-    folder_name=Entry(frame,justify=CENTER,width=40,bd=4)
-    folder_name.grid(row=a+2,column=2)
-    file_namelabel=Label(frame,text='Enter the file name for the word document you want to give on drive: ')
-    file_namelabel.grid(row=a+3,column=1)
+    folder_name = Entry(frame, justify=CENTER, width=40, bd=4)
+    folder_name.grid(row=i + 2, column=2)
+    file_namelabel = Label(frame, text='Enter the file name for the word document you want to give on drive: ')
+    file_namelabel.grid(row=i + 3, column=1)
     global title
-    title=Entry(frame,justify=CENTER,width=40,bd=4)
-    title.grid(row=a+3,column=2)
+    title = Entry(frame, justify=CENTER, width=40, bd=4)
+    title.grid(row=i + 3, column=2)
 
-    fullpathlabel=Label(frame,text='Do not change path if file not moved ')
-    fullpathlabel.grid(row=a+4,column=1)
+    fullpathlabel = Label(frame, text='Do not change path if file not moved ')
+    fullpathlabel.grid(row=i + 4, column=1)
     global fullpath
-    fullpath=Entry(frame,justify=CENTER,width=40,bd=4)
-    fullpath.grid(row=a+4,column=2)
-    global filename,pwd
+    fullpath = Entry(frame, justify=CENTER, width=40, bd=4)
+    fullpath.grid(row=i + 4, column=2)
+    global filename, pwd
     fullpath.delete(0, END)
-    pwd2slash=pwd.split('\\')
-    path=''
-    for j in pwd2slash[:-1]:
-        path=path+j+'\\'
-    finalpath=path+'Invoices\\'+filename+'.docx'
-    fullpath.insert(0,finalpath)
-    submitbutton.grid(row=a+5,column=1)
-    a+=5
+    pwd2slash = pwd.split('\\')
+    path = ''
+    for j in pwd2slash[:]:
+        path = path + j + '\\'
+    finalpath = path + 'Invoices\\' + filename + '.docx'
+    fullpath.insert(0, finalpath)
+    submitbutton.grid(row=i + 5, column=1)
+    i += 5
     global uploadondrive
     uploadondrive.destroy()
 
 
-# GoogleAuth.DEFAULT_SETTINGS[
-#     'client_config_file'] = 'C:\\Users\\darsh\\PycharmProjects\\test111\\client_secrets.json'
 
 
-def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
+def check_folder_exists_and_create_fileupload(folder_name1, title1, fullpath1):
     from pydrive.auth import GoogleAuth
     from pydrive.drive import GoogleDrive
-    GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = "C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\client_secrets.json"
+    GoogleAuth.DEFAULT_SETTINGS[
+        'client_config_file'] = "C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\client_secrets.json"
 
-    # gauth.LoadCredentialsFile()
+    
     gauth = GoogleAuth()
-    # gauth.LocalWebserverAuth()
-    # Creates local webserver and auto handles authentication.
+    
     drive = GoogleDrive(gauth)
-    global a
+    global i
+
     def check_folder_exists(folder_name):
         list_of_file = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
         global folder_id
-        list1=[]
+        list1 = []
         for drive_folder in list_of_file:
             list1.append(drive_folder['title'])
         if folder_name in list1:
             for drive_folder in list_of_file:
                 if drive_folder['title'] == folder_name:
-
                     folder_id = drive_folder['id']
                     return folder_id
 
@@ -400,6 +380,7 @@ def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
             folder.Upload()
             folder_id = folder['id']
             return folder_id
+
     fid1 = check_folder_exists(folder_name1)
 
     def upload_file_inside_folder(title, fid1, fullpath):
@@ -407,164 +388,87 @@ def check_folder_exists_and_create_fileupload(folder_name1,title1,fullpath1):
         file.SetContentFile(fullpath)
         file.Upload()
         return True
-    global oserror
+
     global successdrive
     try:
         upload_file_inside_folder(title1, fid1, fullpath1)
-        successdrive=Label(frame,text='Successfully Uploaded on drive',fg='green')
-        successdrive.grid(row=a,column=2)
+        messagebox.showinfo('Success', 'File successfully uploaded on drive.')
         sendmail.grid(column=1)
-        try:
-            oserror.destroy()
-        except:
-            pass
-    except Exception:
-        try:
-            successdrive.destroy()
-        except Exception:
-            pass
-        oserror=Label(frame,text='Path Error in uploading on drive',fg='red')
-        oserror.grid(row=a,column=2)
 
-submitbutton=Button(frame,text='Submit on drive',activebackground='#00ff00',command=lambda:check_folder_exists_and_create_fileupload(folder_name.get(),title.get(),fullpath.get()))
+    except Exception:
+        messagebox.showerror('Error', 'Path Error in uploading on drive')
+
+
+submitbutton = Button(frame, text='Submit on drive', activebackground='#00ff00',
+                      command=lambda: check_folder_exists_and_create_fileupload(folder_name.get(), title.get(),
+                                                                                fullpath.get()))
+
 
 def sendmailfunction():
     sendmail.destroy()
-    global fromadd,password,to
-    global a
-    # Warninglabel=Label(frame,text='If using gmail, Turn LESS SECURE APP access ON if it is OFF ')
-    # Warninglabel.grid(row=a+1,column=1)
-    # fromaddlabel=Label(frame, text='Email from')
-    # fromadd=Entry(frame,justify=CENTER)
-    # fromaddlabel.grid(row=a+2,column=1)
-    # fromadd.grid(row=a+2,column=2)
-    # passwordlabel=Label(frame,text='Password')
-    # passwordlabel.grid(row=a+3,column=1)
-    # password=Entry(frame,justify=CENTER)
-    # password.grid(row=a+3,column=2)
-    tolabel=Label(frame,text='Send to')
-    tolabel.grid(row=a+2,column=1)
-    to=Entry(frame,justify=CENTER,width=40,bd=4)
-    to.grid(row=a+2,column=2)
-    submitmail.grid(row=a+5, column=1)
-    a+=2
-def bindmailelements(from1,password1,to1):
-    from email.message import EmailMessage
+    global fromadd, password, to
+    global i
+    tolabel = Label(frame, text='Send to')
+    tolabel.grid(row=i + 2, column=1)
+    to = Entry(frame, justify=CENTER, width=40, bd=4)
+    to.grid(row=i + 2, column=2)
+    submitmail.grid(row=i + 5, column=1)
+    i += 2
 
-    fromowner = from1
-    totenant = to1
 
-    mssg = EmailMessage()
-    mssg['From'] = fromowner
-    mssg['To'] = totenant
-    global monthyear
-    mssg['Subject'] = 'Rent Invoice '+(monthyear)+ ' Uploaded on Drive'
-    global folder_id
-    body = ''' Hi, 
 
-    Your monthly rent invoice has been uploaded on the drive. 
-    https://drive.google.com/drive/folders/'''+str(folder_id)+ '''
 
-    Thanks. '''
-
-    mssg.set_content(body)
-
-    import smtplib
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.ehlo()
-    global successmail,loginerror
-    global a
-    try:
-        server.login(fromowner, password1)
-        text = mssg.as_string()
-        server.sendmail(fromowner, totenant, text)
-        server.quit()
-        try:
-            loginerror.destroy()
-        except Exception:
-            pass
-        successmail=Label(frame,text='Mail sent',bg='green')
-        successmail.grid(row=a+1,column=1)
-    except Exception:
-        try:
-            successmail.destroy()
-        except Exception:
-            pass
-        loginerror=Label(frame,text='Login Error in sending email',fg='red')
-        loginerror.grid(row=a+1,column=1)
 def bindmailelementsusingAPI(to1):
     from Google import Create_Service
     import base64
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
-    global monthyear, a
+    global i
     global folder_id
     CLIENT_SECRET_FILE = "C:\\Users\\darsh\\PycharmProjects\\test111\\test11\\New folder\\client_secrets.json"
     API_NAME = 'gmail'
     API_VERSION = 'v1'
     SCOPES = ['https://mail.google.com/']
-    global authorizeerror,successsent,sendingerror
+    global authorizeerror, successsent, sendingerror
 
     try:
         service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
     except:
-        try:
-            successsent.destroy()
-        except:
-            pass
-        try:
-            sendingerror.destroy()
-        except:
-            pass
-        authorizeerror = Label(frame, text='Authorization file moved', fg='red')
-        authorizeerror.grid(row=a + 1, column=2)
+
+        messagebox.showerror('Error', 'Authorization file moved')
+        
     try:
         totenant = to1
         emailMsg = ''' Hi, 
-    
+
         Your monthly rent invoice has been uploaded on the drive. 
-        https://drive.google.com/drive/folders/'''+str(folder_id)+ '''
-    
+        https://drive.google.com/drive/folders/''' + str(folder_id) + '''
+
         Thanks. '''
+        global inv_get
         mimeMessage = MIMEMultipart()
         mimeMessage['to'] = totenant
-        mimeMessage['subject'] = 'Rent Invoice '+(monthyear)+ ' Uploaded on Drive'
+        mimeMessage['subject'] = 'Rent Invoice ' + inv_get + ' Uploaded on Drive'
         mimeMessage.attach(MIMEText(emailMsg, 'plain'))
         raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
 
         message = service.users().messages().send(userId='me', body={'raw': raw_string}).execute()
-        print(message)
-        try:
-            authorizeerror.destroy()
-        except:
-            pass
-        try:
-            sendingerror.destroy()
-        except:
-            pass
-        successsent = Label(frame, text='Mail successfully sent', fg='green')
-        successsent.grid(row=a + 1, column=2)
+        # print(message)
+        messagebox.showinfo('Success', 'Mail successfully sent')
+  
 
     except:
-        try:
-            authorizeerror.destroy()
-        except:
-            pass
-        try:
-            successsent.destroy()
-        except:
-            pass
-        sendingerror = Label(frame, text='Error in sending email', fg='red')
-        sendingerror.grid(row=a + 1, column=2)
+       
+        messagebox.showinfo('Error', 'Error in sending email')
+    
 
-sendmail=Button(frame,text='Send Notification Email',activebackground='#00ff00',command=sendmailfunction)
 
-# submitmail=Button(frame,text='Submit Email and Password',command=lambda:bindmailelements(fromadd.get(),password.get(),to.get()))#Use for SMTP
+sendmail = Button(frame, text='Send Notification Email', activebackground='#00ff00', command=sendmailfunction)
 
-submitmail=Button(frame,text='Send email',activebackground='#00ff00',command=lambda:bindmailelementsusingAPI(to.get()))
+
+submitmail = Button(frame, text='Send email', activebackground='#00ff00',
+                    command=lambda: bindmailelementsusingAPI(to.get()))
 
 root.mainloop()
 
