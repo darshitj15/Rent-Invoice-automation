@@ -12,6 +12,7 @@ If you are running your program on cmd or tools which requires additional instal
 * client_secrets.json file: Put this file in the same folder as your python file if you are using PyCharm or in your current directory where the word file will be saved if you use the terminal. You can enable your own google drive API from https://developers.google.com/drive/api/v3/enable-drive-api from where you will get this json file which will provide the authorization to use APIs. However, if you do not want to upload the file on the drive then you donot need to do this step.
 ## Using the software
 On running the program, it will open a GUI tab. It will ask to add various inputs which are required for the invoice.
+
 ![alt text](Inputs.png)
 
 The add and delete tab enables to add more variable and expenses other than the default expenses. The software is designed to throw errors if inputs are given in the other format than required. For amounts, it will only accept integers and decimals and will throw an error for alphabets or special characters.  
