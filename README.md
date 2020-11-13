@@ -13,7 +13,7 @@ If you are running your program on cmd or tools which requires additional instal
 ## Using the software
 On running the program, it will open a GUI tab. It will ask to add various inputs which are required for the invoice.
 
-![alt text](Inputs.png)
+![alt text](Pictures/Application_Look.png)
 
 The add and delete tab enables to add more variable and expenses other than the default expenses. The software is designed to throw errors if inputs are given in the other format than required. For amounts, it will only accept integers and decimals and will throw an error for alphabets or special characters.  
 Once you submit, the add and delete tabs will be removed and if there are no errors then you will get an option to upload the file on drive. You can add a folder in which you want to add the file on drive and change the file name if you wish to give a different name to the file than the once you gave previously to save on your computer. The last step is to mention the path of your file on your computer and press Submit on Drive. It will open your default browser and ask you to choose the drive account if you are not already logged in to provide authorization to the software. You can upload multiple files one after the other from your computer just by mentioning the path. After you upload the file on drive, an other option will be enabled to send an email. The user will need to provide his email id, password, and the email of the tenant to send the notifying email of the invoice uploaded on the drive. 
