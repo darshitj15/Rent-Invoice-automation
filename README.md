@@ -21,9 +21,17 @@ Check the main repository to see images of various sections of the software.
 ## Using the app
 I have created an app for the above software. Contact me on darshitjagetiya15@gmail.com if you are not a python user and just interested in using the app. 
 ## Glimpse of the app
-![alt text](Look_1.png)
+
+![alt text](Pictures/Look_1.png)
+
+
 ![alt text](Pictures/Look_2.png)
+
+
 ![alt text](Pictures/Look_3.png)
+
+
 ![alt text](Pictures/Look_4.png)
-![alt text](Pictures/Look_5.png)
+
+
 ![alt text](Pictures/Look_6.png)
