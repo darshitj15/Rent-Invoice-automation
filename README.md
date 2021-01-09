@@ -1,4 +1,5 @@
 # Rent-Invoices-Automation
+## Code File: Check rent-invoice.py
 ## Summary
 This is a python program to generate monthly rent invoices in word file and upload it on google drive using rest API. 
 The program uses tkinter library for the GUI, docx to create the word file, pydrive library to upload on google drive and smtp to send an email. The program is error proof and user-friendly. It is useful for all the property owners who need to generate a bill for their tenants, calculate different expenses, and then upload it on drive sharing permissions with the rental. This is a very common use as most of property owners have to do this every month and this program will help them automate their process.
